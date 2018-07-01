@@ -1,0 +1,28 @@
+﻿<Window x:Class="WpfSamples.BasicTutorial05NoWinform"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Window.Resources>
+        <ResourceDictionary Source="Resources.xaml" />
+    </Window.Resources>
+
+    <DockPanel LastChildFill="True">
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Button Content="Play" Click="OnPlayClick"></Button>
+                <Button Content="Pause" Click="OnPauseClick"></Button>
+                <Button Content="Stop" Click="OnStopClick"></Button>
+            </StackPanel>
+            <Slider Name="slider" HorizontalAlignment="Stretch" Grid.Column="1" ValueChanged="OnSliderValueChanged"/>
+        </Grid>
+
+        <TextBlock Name="streamsList" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" DockPanel.Dock="Right" Width="200"/>
+
+        <Canvas x:Name="videoPanel" DockPanel.Dock="Left" Background="DarkKhaki" />
+
+    </DockPanel>
+</Window>
+
