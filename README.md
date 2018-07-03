@@ -3,7 +3,7 @@ Tutorials and samples for GStreamerSharp
 
 C# tutorials translated to C# from https://gstreamer.freedesktop.org/documentation/tutorials/. These versions are different than the official samples (https://github.com/GStreamer/gstreamer-sharp/tree/master/samples).
 
-Additionally, there are a few demos of using web cameras with GStreamer Sharp and WebForms and WPF versions of Basic tutorial 5 and VideoOverlay samples (https://github.com/GStreamer/gstreamer-sharp/blob/master/samples/VideoOverlay.cs).
+Additionally, there are a few demos of using web cameras with GStreamer Sharp and WinForms and WPF versions of Basic tutorial 5 and VideoOverlay samples (https://github.com/GStreamer/gstreamer-sharp/blob/master/samples/VideoOverlay.cs).
 
 Some of the samples didn't work with the official GstSharp NuGet package (https://www.nuget.org/packages/GstSharp/), so there's also a gstreamer-sharp, recompiled as .Net standard 2.0 project, which depends on GioSharp package (https://www.nuget.org/packages/GioSharp).
 
