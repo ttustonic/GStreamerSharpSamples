@@ -246,8 +246,8 @@ application/x-rtp,media=video,encoding-name=VP8,payload=96 ! webrtcbin name = se
 
     static class WebRtcSendRcv
     {
-        //        const string SERVER = "wss://webrtc.nirbheek.in:8443";
-        const string SERVER = "wss://127.0.0.1:8443";
+        const string SERVER = "wss://webrtc.nirbheek.in:8443";
+        //const string SERVER = "wss://127.0.0.1:8443";
         static Random random = new Random();
 
         public static void Run(string[] args)
@@ -256,6 +256,11 @@ application/x-rtp,media=video,encoding-name=VP8,payload=96 ! webrtcbin name = se
                 throw new Exception("need peerId");
             int peerId = Int32.Parse(args[0]);
             var server = (args.Length > 1) ? args[1] : SERVER;
+
+            GtkSharp.GstreamerSharp.ObjectManager.Initialize();
+            GLib.GType.Register(WebRTCSessionDescription.GType, typeof(WebRTCSessionDescription));
+            Gst.Application.Init();
+            GLib.GType.Register(WebRTCSessionDescription.GType, typeof(WebRTCSessionDescription));
 
             var ourId = random.Next(100, 10000);
             Console.WriteLine($"PeerId:{peerId} OurId:{ourId} ");

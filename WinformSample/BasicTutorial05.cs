@@ -85,7 +85,7 @@ namespace WinformSample
             }
             // Set the URI to play.
             _playbin["uri"] = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4";
-            _playbin["uri"] = @"file:///U:/Video/test2.mp4";
+//            _playbin["uri"] = @"file:///U:/Video/test2.mp4";
 
             // Connect to interesting signals in playbin
             _playbin.Connect("video-tags-changed", TagsCb);

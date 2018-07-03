@@ -38,8 +38,8 @@ namespace GstSamples
             }
             // Set the URI to play.
             Playbin["uri"] = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4";
-            Playbin["uri"] = @"file:///U:/Video/test.avi";
-            //            Playbin["uri"] = @"file:///U:/Video/test2.mp4";
+//            Playbin["uri"] = @"file:///U:/Video/test.avi";
+//            Playbin["uri"] = @"file:///U:/Video/test2.mp4";
 
             // Connect to interesting signals in playbin
             Playbin.Connect("video-tags-changed", TagsCb);
