@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using static System.ConsoleColor;
 
 namespace GstSamples
@@ -12,19 +14,19 @@ namespace GstSamples
             return -1;
         }
 
-        public static void PrintYellow(this string format, params object[] args)
+        public static void PrintYellow(this string s)
         {
-            PrintColor(String.Format(format, args), Yellow);
+            PrintColor(s, Yellow);
         }
 
-        public static void PrintGreen(this string format, params object[] args)
+        public static void PrintGreen(this string s)
         {
-            PrintColor(String.Format(format, args), Green);
+            PrintColor(s, Green);
         }
 
-        public static void PrintMagenta(this string format, params object[] args)
+        public static void PrintMagenta(this string s)
         {
-            PrintColor(String.Format(format, args), Magenta);
+            PrintColor(s, Magenta);
         }
 
         public static void PrintColor(this string s, ConsoleColor color)
@@ -32,6 +34,11 @@ namespace GstSamples
             Console.ForegroundColor = color;
             Console.WriteLine(s);
             Console.ResetColor();
+        }
+
+        public static bool HasProperty(this ExpandoObject obj, string propertyName)
+        {
+            return ((IDictionary<String, object>)obj).ContainsKey(propertyName);
         }
     }
 }

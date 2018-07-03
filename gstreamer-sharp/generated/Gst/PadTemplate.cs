@@ -108,8 +108,7 @@ namespace Gst {
 			get {
 				GLib.Value val = GetProperty ("gtype");
                 GLib.GType ret = (GLib.GType)val.Val;
-//				GLib.GType ret = (GLib.GType) val;
-                val.Dispose ();
+				val.Dispose ();
 				return ret;
 			}
 		}

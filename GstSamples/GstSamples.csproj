@@ -62,6 +62,9 @@
     <Reference Include="CairoSharp, Version=3.22.24.36, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CairoSharp.3.22.24.36\lib\netstandard2.0\CairoSharp.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetProjects.websocket-sharp, Version=2.0.7.0, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetProjects.websocket-sharp.2.0.7\lib\net45\DotNetProjects.websocket-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="GdkSharp, Version=3.22.24.36, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GdkSharp.3.22.24.36\lib\netstandard2.0\GdkSharp.dll</HintPath>
     </Reference>
@@ -73,6 +76,9 @@
     </Reference>
     <Reference Include="GtkSharp, Version=3.22.24.36, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GtkSharp.3.22.24.36\lib\netstandard2.0\GtkSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PangoSharp, Version=3.22.24.36, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PangoSharp.3.22.24.36\lib\netstandard2.0\PangoSharp.dll</HintPath>
@@ -100,6 +106,7 @@
     <Compile Include="PlaybackTutorial06.cs" />
     <Compile Include="PlaybackTutorial07.cs" />
     <Compile Include="WebCamTutorial02.cs" />
+    <Compile Include="WebRtcSendrcv.cs" />
     <None Include="packages.config" />
     <Compile Include="Utils.cs" />
     <Compile Include="BasicTutorial01.cs" />

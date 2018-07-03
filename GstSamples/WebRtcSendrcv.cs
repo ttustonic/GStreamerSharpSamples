@@ -12,8 +12,11 @@ using GLib;
 
 namespace GstSamples
 {
+    // https://github.com/centricular/gstwebrtc-demos/blob/master/sendrecv/gst/webrtc-sendrecv.py
     class WebRtcClient : IDisposable
     {
+        const string SERVER = "wss://127.0.0.1:8443";
+
         const string PIPELINE_DESC0 = @"webrtcbin name=sendrecv
  videotestsrc pattern=ball ! videoconvert ! queue ! vp8enc deadline=1 ! rtpvp8pay !
  queue ! application/x-rtp,media=video,encoding-name=VP8,payload=97 ! sendrecv.
@@ -30,7 +33,7 @@ application/x-rtp,media=video,encoding-name=VP8,payload=96 ! webrtcbin name = se
         Pipeline _pipe;
         Element _webRtc;
 
-        public WebRtcClient(int id, int peerId, string server = "wss://webrtc.nirbheek.in:8443")
+        public WebRtcClient(int id, int peerId, string server = SERVER)
         {
             _id = id;
             _peerId = peerId;
@@ -247,7 +250,7 @@ application/x-rtp,media=video,encoding-name=VP8,payload=96 ! webrtcbin name = se
         const string SERVER = "wss://127.0.0.1:8443";
         static Random random = new Random();
 
-        public static void Run(string[] args)//int peerId, string server= "wss://127.0.0.1:8443")
+        public static void Run(string[] args)
         {
             if (args.Length == 0)
                 throw new Exception("need peerId");
