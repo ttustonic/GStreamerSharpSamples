@@ -4,11 +4,11 @@ using Gst;
 
 internal static class GstImports
 {
-    [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("gstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
     public static extern void gst_element_class_set_static_metadata(IntPtr klass, string longname, string classification, string description, string author);
-    [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("gstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
     public static extern void gst_element_class_set_metadata(IntPtr klass, string longname, string classification, string description, string author);
-    [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("gstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
     public static extern void gst_element_class_add_pad_template(IntPtr klass, IntPtr templ);
 }
 

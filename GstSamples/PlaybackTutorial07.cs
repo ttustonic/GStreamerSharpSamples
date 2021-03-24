@@ -7,8 +7,8 @@ namespace GstSamples
     /// <summary>
     /// Custom playbin sinks
     /// </summary>
-    class PlaybackTutorial07
-    {        
+    static class PlaybackTutorial07
+    {
         public static void Run(string[] args)
         {
             // Initialize GStreamer
@@ -64,7 +64,6 @@ namespace GstSamples
 
             pipeline.SetState(State.Null);
             pipeline.Dispose();
-            pipeline = null;
         }
     }
 }

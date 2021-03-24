@@ -19,9 +19,8 @@ namespace WpfSamples
         bool _pipelineOK = false;
         Element _playbin;
         bool _updatingScale;
-        // prevent updating Slider while dragging 
+        // prevent updating Slider while dragging
         bool _isMouseDrag = false;
-        long _duration = -1;
         MainLoop _mainLoop;
         System.Threading.Thread _mainGlibThread;
         IntPtr _windowHandle;
@@ -41,7 +40,7 @@ namespace WpfSamples
             GLib.Timeout.Add(500, new GLib.TimeoutHandler(UpdatePos));
         }
 
-        protected override void OnClosed(EventArgs e)
+        protected override void OnClosed(System.EventArgs e)
         {
             var setStateRet = _playbin.SetState(State.Null);
             _playbin.Dispose();
@@ -59,7 +58,7 @@ namespace WpfSamples
                 _adapter.SetRenderRectangle(_videoRect.x, _videoRect.y, _videoRect.w, _videoRect.h);
         }
 
-        protected override void OnActivated(EventArgs e)
+        protected override void OnActivated(System.EventArgs e)
         {
             _windowHandle = new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
             base.OnActivated(e);
@@ -184,8 +183,7 @@ namespace WpfSamples
         }
         void OnBusMessage(object o, MessageArgs margs)
         {
-            Bus bus = o as Bus;
-            Gst.Message message = margs.Message;
+            Message message = margs.Message;
             switch (message.Type)
             {
                 case MessageType.Error:
@@ -202,7 +200,6 @@ namespace WpfSamples
         bool _isRender = false;
         void OnBusSyncMessage(object o, SyncMessageArgs sargs)
         {
-            Bus bus = o as Bus;
             Gst.Message msg = sargs.Message;
 
             if (!Gst.Video.Global.IsVideoOverlayPrepareWindowHandleMessage(msg))
@@ -217,9 +214,9 @@ namespace WpfSamples
                 src["force-aspect-ratio"] = true;
             }
             catch (PropertyNotFoundException)
-            { }
+            { /* Don't care */ }
 
-            Element overlay = null ?? (src as Gst.Bin)?.GetByInterface(VideoOverlayAdapter.GType);
+            Element overlay = (src as Gst.Bin)?.GetByInterface(VideoOverlayAdapter.GType);
             if (overlay == null)
             {
                 Console.WriteLine("Overlay is null");

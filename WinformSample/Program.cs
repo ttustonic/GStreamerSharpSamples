@@ -3,14 +3,16 @@ using System.Windows.Forms;
 
 namespace WinformSample
 {
-    class Program
+    static class Program
     {
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new VideoOverlay());
+//            Application.Run(new BasicTutorial5());  // works
+            Application.Run(new VideoOverlay());  // works
+
         }
     }
 }

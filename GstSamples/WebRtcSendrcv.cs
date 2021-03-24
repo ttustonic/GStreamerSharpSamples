@@ -9,6 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using Gst.Sdp;
 using System.Text;
 using GLib;
+using EventArgs = System.EventArgs;
 
 namespace GstSamples
 {
@@ -180,7 +181,8 @@ application/x-rtp,media=video,encoding-name=VP8,payload=96 ! webrtcbin name = se
         {
             var webRtc = o as Element;
             Assert(webRtc != null, "not a webrtc object");
-            Promise promise = new Promise(OnOfferCreated, _webRtc.Handle, null); // webRtc.Handle, null);
+            PromiseChangeFunc promiseChangeFunc = OnOfferCreated;
+            Promise promise = new Promise(promiseChangeFunc);
             Structure structure = new Structure("struct");
             _webRtc.Emit("create-offer", structure, promise);
         }

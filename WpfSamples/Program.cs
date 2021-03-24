@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace WpfSamples
 {
-    class Program
+    static class Program
     {
         [STAThread]
         static void Main(string[] args)

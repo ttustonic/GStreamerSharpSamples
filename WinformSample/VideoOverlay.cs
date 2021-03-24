@@ -15,7 +15,7 @@ namespace WinformSample
         System.Threading.Thread _mainGlibThread;
         GLib.MainLoop _mainLoop;
         bool _updatingScale;
-        // prevent updating Trackbar while dragging 
+        // prevent updating Trackbar while dragging
         bool _isMouseDrag = false;
 
         public VideoOverlay()
@@ -114,7 +114,6 @@ namespace WinformSample
 
         void OnBusMessage(object o, MessageArgs margs)
         {
-            Bus bus = o as Bus;
             Gst.Message message = margs.Message;
             switch (message.Type)
             {
@@ -131,7 +130,6 @@ namespace WinformSample
 
         void OnBusSyncMessage(object o, SyncMessageArgs sargs)
         {
-            Bus bus = o as Bus;
             Gst.Message msg = sargs.Message;
 
             if (!Gst.Video.Global.IsVideoOverlayPrepareWindowHandleMessage(msg))
@@ -146,8 +144,8 @@ namespace WinformSample
                 src["force-aspect-ratio"] = true;
             }
             catch (PropertyNotFoundException)
-            { }
-            Element overlay = null ?? (src as Gst.Bin)?.GetByInterface(VideoOverlayAdapter.GType);
+            { /* Don't care */ }
+            Element overlay = (src as Gst.Bin)?.GetByInterface(VideoOverlayAdapter.GType);
             if (overlay == null)
             {
                 Console.WriteLine("Overlay is null");
@@ -158,7 +156,7 @@ namespace WinformSample
             adapter.WindowHandle = _videoPanelHandle;
             adapter.HandleEvents(true);
         }
-       
+
         void OnScaleValueChanged(object sender, EventArgs e)
         {
             if (_isMouseDrag)
@@ -190,15 +188,15 @@ namespace WinformSample
             _isMouseDrag = false;
             if (_updatingScale)
                 return;
-            var scale = sender as TrackBar;
-            var value = scale.Value;
+            var trackBar = sender as TrackBar;
+            var value = trackBar.Value;
             if ((_playbin != null)
                 && _pipelineOK
                 && _playbin.QueryDuration(Format.Time, out long duration)
                 && duration != -1)
             {
                 var pos = duration * value / 100;
-                Console.WriteLine("Seek to {0}/{1} ({2}%)", pos, duration, scale.Value);
+                Console.WriteLine("Seek to {0}/{1} ({2}%)", pos, duration, trackBar.Value);
                 _playbin.SeekSimple(Format.Time, SeekFlags.Flush | SeekFlags.KeyUnit, pos);
             }
         }

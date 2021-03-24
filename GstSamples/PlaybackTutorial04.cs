@@ -11,7 +11,7 @@ namespace GstSamples
     static class PlaybackTutorial04
     {
         const int GRAPH_LENGTH = 78;
-
+        const uint GST_PLAY_FLAG_DOWNLOAD = (1 << 7);
         static bool _isLive = false;
         static Element _pipeline;
         static GLib.MainLoop _loop;
@@ -24,21 +24,25 @@ namespace GstSamples
 
             _bufferingLevel = 100;
 
-            // Build the pipeline 
-            using (_pipeline = Parse.Launch("playbin uri=https://www.freedesktop.org/software/gstreamer-sdk/data/media/sintel_trailer-480p.webm"))            
+            // Build the pipeline
+            /* error when setting download flag
+                                    using (_pipeline = Parse.Launch("playbin uri=https://www.freedesktop.org/software/gstreamer-sdk/data/media/sintel_trailer-480p.webm"))
+                        Error: The stream is in the wrong format.
+                        ../gst-libs/gst/audio/gstaudiobasesink.c(1117): gst_audio_base_sink_wait_event (): /GstPlayBin:playbin0/GstPlaySink:playsink/GstBin:abin/GstWasapiSink:wasapisink0:
+                        Sink not negotiated before eos event.
+            */
+
+            using (_pipeline = Parse.Launch("playbin uri=https://download.blender.org/durian/trailer/sintel_trailer-1080p.ogv")) // Works
+//            using (_pipeline = Parse.Launch("playbin uri=https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps_1920x1080_8000k.mpd")) // works
+//          using (_pipeline = Parse.Launch("playbin uri=file:///U:/Video/test.mp4")) // works
             {
                 var bus = _pipeline.Bus;
 
-                // Set the download flag
-                GstPlayFlags flags = (GstPlayFlags)_pipeline["flags"];
-                flags |= GstPlayFlags.Download;
-                _pipeline["flags"] = (uint)flags;
-                /* This doesn't work? flags = 0 ?
-                                GstPlayFlags flags = (GstPlayFlags)_pipeline.Flags;
-                                flags |= GstPlayFlags.Download;
-                                _pipeline.Flags = (uint)flags;
-                */
-                // Uncomment this line to limit the amount of downloaded data 
+                var flags = _pipeline.Flags;
+                flags |= GST_PLAY_FLAG_DOWNLOAD;
+                _pipeline.Flags = flags;
+
+                // Uncomment this line to limit the amount of downloaded data
                 _pipeline["ring-buffer-max-size"] = 4000000L;
 
                 // Start playing
@@ -77,7 +81,7 @@ namespace GstSamples
                 var graph = new char[GRAPH_LENGTH];
                 for (int i = 0; i < GRAPH_LENGTH; i++)
                     graph[i] = ' ';
-               
+
                 var nRanges = query.NBufferingRanges;
                 for (uint range = 0; range < nRanges; range++)
                 {
@@ -87,9 +91,9 @@ namespace GstSamples
                     for (int i = (int)start; i < stop; i++)
                         graph[i] = '-';
                 }
-                if (_pipeline.QueryPosition(Format.Time, out long position) 
-                    && position >= 0 
-                    && _pipeline.QueryDuration(Format.Time, out long duration) 
+                if (_pipeline.QueryPosition(Format.Time, out long position)
+                    && position >= 0
+                    && _pipeline.QueryDuration(Format.Time, out long duration)
                     && duration > 0)
                 {
                     var i = (int)(GRAPH_LENGTH * (double)position / (double)(duration + 1));
@@ -107,7 +111,6 @@ namespace GstSamples
 
         static void GotLocation(object o, SignalArgs args)
         {
-            var pipeline = o as Element;
             var propObject = args.Args[0] as Gst.Object;
             var location = (string)propObject.GetProperty("temp-location");
             Console.WriteLine($"Temporary file {location}");
@@ -117,14 +120,13 @@ namespace GstSamples
 
         static void CbMessage(object o, MessageArgs args)
         {
-            var bus = o as Bus;
             var msg = args.Message;
 
-            switch(args.Message.Type)
+            switch (args.Message.Type)
             {
                 case MessageType.Error:
                     msg.ParseError(out GLib.GException err, out string debug);
-                    Console.WriteLine($"Error: {err.Message}");
+                    $"Error: {err.Message}\n{debug}".PrintErr();
                     _pipeline.SetState(State.Ready);
                     _loop.Quit();
                     break;

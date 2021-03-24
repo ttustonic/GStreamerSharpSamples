@@ -115,7 +115,6 @@ namespace GstSamples
         /// </summary>
         static void HandleMessage(object o, MessageArgs args)
         {
-            var bus = o as Bus;
             var msg = args.Message;
 
             switch (msg.Type)

@@ -31,7 +31,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -39,7 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -56,32 +56,24 @@
     <StartupObject>GstSamples.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AtkSharp, Version=3.22.24.36, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AtkSharp.3.22.24.36\lib\netstandard2.0\AtkSharp.dll</HintPath>
+    <Reference Include="cairo-sharp">
+      <HintPath>..\lib\cairo-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="CairoSharp, Version=3.22.24.36, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CairoSharp.3.22.24.36\lib\netstandard2.0\CairoSharp.dll</HintPath>
+    <Reference Include="gdk-sharp">
+      <HintPath>..\lib\gdk-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetProjects.websocket-sharp, Version=2.0.7.0, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetProjects.websocket-sharp.2.0.7\lib\net45\DotNetProjects.websocket-sharp.dll</HintPath>
+    <Reference Include="gio-sharp">
+      <HintPath>..\lib\gio-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="GdkSharp, Version=3.22.24.36, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GdkSharp.3.22.24.36\lib\netstandard2.0\GdkSharp.dll</HintPath>
+    <Reference Include="glib-sharp">
+      <HintPath>..\lib\glib-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="GioSharp, Version=3.22.24.36, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GioSharp.3.22.24.36\lib\netstandard2.0\GioSharp.dll</HintPath>
+    <Reference Include="gstreamer-sharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\gstreamer-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="GLibSharp, Version=3.22.24.36, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GLibSharp.3.22.24.36\lib\netstandard2.0\GLibSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="GtkSharp, Version=3.22.24.36, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GtkSharp.3.22.24.36\lib\netstandard2.0\GtkSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="PangoSharp, Version=3.22.24.36, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PangoSharp.3.22.24.36\lib\netstandard2.0\PangoSharp.dll</HintPath>
+    <Reference Include="gtk-sharp">
+      <HintPath>..\lib\gtk-sharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -107,7 +99,6 @@
     <Compile Include="PlaybackTutorial07.cs" />
     <Compile Include="WebCamTutorial02.cs" />
     <Compile Include="WebRtcSendrcv.cs" />
-    <None Include="packages.config" />
     <Compile Include="Utils.cs" />
     <Compile Include="BasicTutorial01.cs" />
     <Compile Include="BasicTutorial02.cs" />
@@ -136,10 +127,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\gstreamer-sharp\gstreamer-sharp.csproj">
-      <Project>{10ad22ac-7b2b-429d-bfbb-a52118eb6b22}</Project>
-      <Name>gstreamer-sharp</Name>
-    </ProjectReference>
+    <PackageReference Include="DotNetProjects.websocket-sharp">
+      <Version>2.0.7</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

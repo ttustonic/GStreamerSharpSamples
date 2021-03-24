@@ -48,14 +48,14 @@ namespace GstSamples
             }
             pipeline.Add(source, sink);
 
-            // Build the pipeline 
+            // Build the pipeline
             if (!source.Link(sink))
             {
                 "Elements could not be linked".PrintErr();
                 return;
             }
 
-            // Print initial negotiated caps (in NULL state) 
+            // Print initial negotiated caps (in NULL state)
             Console.WriteLine("In NULL state:");
             PrintPadCapabilities(sink, "sink");
 
@@ -103,13 +103,13 @@ namespace GstSamples
                 }
             } while (!terminate);
 
-            // Free resources 
+            // Free resources
             pipeline.SetState(State.Null);
         }
 
         #region Functions below print the Capabilities in a human-friendly format
 
-        [DllImport("libgstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("gstreamer-1.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
         static extern ulong gst_value_get_bitmask(IntPtr value);
 
         static bool PrintField(uint field_id, GLib.Value value)
@@ -128,7 +128,7 @@ namespace GstSamples
                 ulong raw_ret = gst_value_get_bitmask(native_value);
                 ulong ret = raw_ret;
                 Marshal.FreeHGlobal(native_value);
-                
+
 
                 var bitMaskValue = Gst.Value.GetBitmask(value);
 
@@ -145,7 +145,7 @@ namespace GstSamples
                 Bitmask bitMask = (Bitmask)ciOk.Invoke(new object[] { valuePtr });
 
                 $"{quark} : {ex.Message} : {bitMaskValue} ".PrintErr();
-            }           
+            }
             return true;
         }
 
@@ -199,7 +199,7 @@ namespace GstSamples
         }
 
         /// <summary>
-        /// Shows the CURRENT capabilities of the requested pad in the given element 
+        /// Shows the CURRENT capabilities of the requested pad in the given element
         /// </summary>
         static void PrintPadCapabilities(Element element, string padName)
         {
@@ -220,7 +220,7 @@ namespace GstSamples
         }
         #endregion
 
-        [DllImport("libglib-2.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("glib-2.0-0.dll", CallingConvention = CallingConvention.Cdecl)]
         static extern IntPtr g_quark_to_string(uint quark);
     }
 }

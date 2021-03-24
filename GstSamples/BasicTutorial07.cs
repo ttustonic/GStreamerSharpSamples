@@ -8,7 +8,7 @@ namespace GstSamples
     /// <summary>
     /// Multithreading and Pad Availability
     /// </summary>
-    static class BasicTutorial7
+    static class BasicTutorial07
     {
         public static void Run(string[] args)
         {

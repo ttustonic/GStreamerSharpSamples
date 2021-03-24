@@ -32,7 +32,7 @@ namespace WpfSamples
             InitGStreamerPipeline();
         }
 
-        protected override void OnClosed(EventArgs e)
+        protected override void OnClosed(System.EventArgs e)
         {
             var setStateRet = _playbin.SetState(State.Null);
             _playbin.Dispose();
@@ -40,7 +40,7 @@ namespace WpfSamples
             base.OnClosed(e);
         }
 
-        void HandleRealized(object sender, EventArgs e)
+        void HandleRealized(object sender, System.EventArgs e)
         {
             var vpanel = sender as System.Windows.Forms.Panel;
             _videoPanelHandle = vpanel.Handle;
@@ -65,9 +65,7 @@ namespace WpfSamples
                 return;
             }
             // Set the URI to play.
-            _playbin["uri"] = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4";
-//            _playbin["uri"] = @"file:///U:/Video/test2.mp4";
-//            _playbin["uri"] = @"file:///U:/Video/sintel_trailer-480p.webm";
+            _playbin["uri"] = "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps_1920x1080_8000k.mpd";
 
             // Connect to interesting signals in playbin
             _playbin.Connect("video-tags-changed", TagsCb);
@@ -114,12 +112,11 @@ namespace WpfSamples
 
         #region Bus events
         /// <summary>
-        /// This function is called when an error message is posted on the bus 
+        /// This function is called when an error message is posted on the bus
         /// </summary>
         void ErrorCb(object o, GLib.SignalArgs args)
         {
-            Bus bus = o as Bus;
-            Gst.Message msg = (Gst.Message)args.Args[0];
+            Message msg = (Message)args.Args[0];
             msg.ParseError(out GException err, out string debug);
 
             Console.WriteLine($"Error received from element {msg.Src.Name}: {err.Message}");

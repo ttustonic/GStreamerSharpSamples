@@ -5,6 +5,7 @@ using GLib;
 using Gst;
 using Gst.Video;
 using Gtk;
+using EventArgs = System.EventArgs;
 
 namespace GstSamples
 {

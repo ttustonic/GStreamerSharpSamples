@@ -20,7 +20,7 @@ namespace WpfSamples
         System.Threading.Thread _mainGlibThread;
         IntPtr _windowHandle;
         VideoOverlayAdapter _adapter;
-        (int x, int y, int w, int h) _videoRect; 
+        (int x, int y, int w, int h) _videoRect;
 
         public BasicTutorial05NoWinform()
         {
@@ -35,7 +35,7 @@ namespace WpfSamples
             videoPanel.SizeChanged += VideoPanel_SizeChanged;
         }
 
-        protected override void OnClosed(EventArgs e)
+        protected override void OnClosed(System.EventArgs e)
         {
             var setStateRet = _playbin.SetState(State.Null);
             _playbin.Dispose();
@@ -53,7 +53,7 @@ namespace WpfSamples
                 _adapter.SetRenderRectangle(_videoRect.x, _videoRect.y, _videoRect.w, _videoRect.h);
         }
 
-        protected override void OnActivated(EventArgs e)
+        protected override void OnActivated(System.EventArgs e)
         {
             _windowHandle = new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
             base.OnActivated(e);
@@ -70,9 +70,7 @@ namespace WpfSamples
                 return;
             }
             // Set the URI to play.
-//            _playbin["uri"] = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4";
-//            _playbin["uri"] = @"file:///U:/Video/test2.mp4";
-            _playbin["uri"] = @"file:///U:/Video/sintel_trailer-480p.webm";
+            _playbin["uri"] = @"https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps_1920x1080_8000k.mpd";
 
             // Connect to interesting signals in playbin
             _playbin.Connect("video-tags-changed", TagsCb);
@@ -89,19 +87,12 @@ namespace WpfSamples
             bus.Connect("message::state-changed", StateChangedCb);
             bus.Connect("message::application", ApplicationCb);
 
-            //var ret = _playbin.SetState(State.Playing);
-            //if (ret == StateChangeReturn.Failure)
-            //{
-            //    Console.WriteLine("Unable to set the pipeline to the playing state.");
-            //    return;
-            //}
             GLib.Timeout.Add(1, RefreshUI);
         }
 
         bool _isRender = false;
         void OnBusSyncMessage(object o, SyncMessageArgs sargs)
         {
-            Bus bus = o as Bus;
             Gst.Message msg = sargs.Message;
 
             if (!Gst.Video.Global.IsVideoOverlayPrepareWindowHandleMessage(msg))
@@ -116,9 +107,9 @@ namespace WpfSamples
                 src["force-aspect-ratio"] = true;
             }
             catch (PropertyNotFoundException)
-            { }
+            { /* Don't care */ }
 
-            Element overlay = null ?? (src as Gst.Bin)?.GetByInterface(VideoOverlayAdapter.GType);
+            Element overlay = (src as Gst.Bin)?.GetByInterface(VideoOverlayAdapter.GType);
             if (overlay == null)
             {
                 Console.WriteLine("Overlay is null");
@@ -159,12 +150,11 @@ namespace WpfSamples
 
         #region Bus events
         /// <summary>
-        /// This function is called when an error message is posted on the bus 
+        /// This function is called when an error message is posted on the bus
         /// </summary>
         void ErrorCb(object o, GLib.SignalArgs args)
         {
-            Bus bus = o as Bus;
-            Gst.Message msg = (Gst.Message)args.Args[0];
+            Message msg = (Message)args.Args[0];
             msg.ParseError(out GException err, out string debug);
 
             Console.WriteLine($"Error received from element {msg.Src.Name}: {err.Message}");
@@ -185,7 +175,6 @@ namespace WpfSamples
             msg.ParseStateChanged(out State oldState, out State newState, out State pendingState);
             if (msg.Src == _playbin)
             {
-                //                State = newState;
                 Console.WriteLine($"State set to {Element.StateGetName(newState)}");
                 if (oldState == State.Ready && newState == State.Paused)
                 {

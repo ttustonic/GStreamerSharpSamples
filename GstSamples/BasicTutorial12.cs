@@ -23,8 +23,7 @@ namespace GstSamples
             _data = new CustomData();
 
             Gst.Application.Init(ref args);
-            //            var pipeline = Gst.Parse.Launch("playbin uri=https://www.freedesktop.org/software/gstreamer-sdk/data/media/sintel_trailer-480p.webm");
-            _data.Pipeline = Parse.Launch("playbin uri=http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4");
+            _data.Pipeline = Gst.Parse.Launch("playbin uri=https://www.freedesktop.org/software/gstreamer-sdk/data/media/sintel_trailer-480p.webm");
             var bus = _data.Pipeline.Bus;
 
             //start playing
@@ -39,7 +38,7 @@ namespace GstSamples
                 _data.IsLive = true;
             }
 
-            _data.MainLoop = new GLib.MainLoop(); 
+            _data.MainLoop = new GLib.MainLoop();
 
             bus.AddSignalWatch();
             bus.Message += CbMessage;
@@ -52,7 +51,6 @@ namespace GstSamples
 
         static void CbMessage(object o, MessageArgs args)
         {
-            var bus = o as Bus;
             var msg = args.Message;
             switch (msg.Type)
             {

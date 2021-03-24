@@ -1,29 +1,30 @@
 ﻿//   Copyright (C) 2018 Tomislav Tustonic <ttustonic@outlook.com>
 using System;
 using Gst;
+using static GstSamples.GstPlayFlags;
 
 namespace GstSamples
 {
     /// <summary>
     /// Playbin usage
     /// </summary>
-    static  class PlaybackTutorial01
+    static class PlaybackTutorial01
     {
         struct CustomData
         {
-            public Element Playbin; // Our one and only element 
-            public int NVideo; // Number of embedded video streams 
-            public int NAudio; // Number of embedded audio streams 
-            public int NText; // Number of embedded subtitle streams 
+            public Element Playbin; // Our one and only element
+            public int NVideo; // Number of embedded video streams
+            public int NAudio; // Number of embedded audio streams
+            public int NText; // Number of embedded subtitle streams
 
-            public int CurrentVideo; // Currently playing video stream 
-            public int CurrentAudio; // Currently playing audio stream 
-            public int CurrentText; // Currently playing subtitle stream 
+            public int CurrentVideo; // Currently playing video stream
+            public int CurrentAudio; // Currently playing audio stream
+            public int CurrentText; // Currently playing subtitle stream
 
             public GLib.MainLoop MainLoop;
         }
 
-        static CustomData _data;
+        static CustomData _data = new CustomData();
 
         public static void Run(string[] args)
         {
@@ -41,24 +42,23 @@ namespace GstSamples
 
             // Set the uri to play
             _data.Playbin["uri"] = "http://freedesktop.org/software/gstreamer-sdk/data/media/sintel_cropped_multilingual.webm";
-            //Data.Playbin["uri"] = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4";
-            //Data.Playbin["uri"] = "https://www.freedesktop.org/software/gstreamer-sdk/data/media/sintel_trailer-480p.webm";
+            //_data.Playbin["uri"] = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4";
 
-            // Set flags to show Audio and Video but ignore Subtitles 
-            GstPlayFlags flags = (GstPlayFlags)_data.Playbin["flags"];
-            flags |= (GstPlayFlags.Video | GstPlayFlags.Audio);
-            flags &= (~GstPlayFlags.Text);
+            // Set flags to show Audio and Video but ignore Subtitles
+            var flags = (GstPlayFlags)(_data.Playbin["flags"]);
+            flags |= Video | Audio;
+            flags &= ~Text;
+
+            Console.WriteLine("Flags = " + (uint)flags);
+
             _data.Playbin["flags"] = (uint)flags;
 
-            // Set connection speed. This will affect some internal decisions of playbin2 
+            // Set connection speed. This will affect some internal decisions of playbin2
             _data.Playbin["connection-speed"] = 56;
 
             var bus = _data.Playbin.Bus;
             bus.AddSignalWatch();
             bus.Message += HandleMessage;
-
-            // Add a keyboard watch so we get notified of keystrokes
-            GLib.Idle.Add(HandleKeyboard);
 
             // Start playing
             var ret = _data.Playbin.SetState(State.Playing);
@@ -68,6 +68,9 @@ namespace GstSamples
                 _data.Playbin.Dispose();
                 return;
             }
+
+            // Add a keyboard watch so we get notified of keystrokes
+            GLib.Idle.Add(HandleKeyboard);
 
             _data.MainLoop = new GLib.MainLoop();
             _data.MainLoop.Run();
@@ -106,7 +109,6 @@ namespace GstSamples
         /// </summary>
         static void HandleMessage(object o, MessageArgs args)
         {
-            var bus = o as Bus;
             var msg = args.Message;
 
             switch (msg.Type)
@@ -145,10 +147,11 @@ namespace GstSamples
             _data.NText = (int)_data.Playbin["n-text"];
 
             Console.WriteLine($"{_data.NVideo} video streams, {_data.NAudio} audio streams, {_data.NText} text streams");
+
             string str;
             for (int i = 0; i < _data.NVideo; i++)
             {
-                // Retrieve the stream's video tags 
+                // Retrieve the stream's video tags
                 using (TagList tags = (TagList)_data.Playbin.Emit("get-video-tags", i))
                 {
                     if (tags == null)

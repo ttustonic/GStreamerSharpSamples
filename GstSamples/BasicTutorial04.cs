@@ -7,7 +7,7 @@ namespace GstSamples
     /// <summary>
     /// Time management
     /// </summary>
-    static class BasicTutorial4
+    static class BasicTutorial04
     {
         static Element playbin;
         static bool playing;
@@ -27,8 +27,8 @@ namespace GstSamples
                 return;
             }
 
-            playbin["uri"] = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4";
-//            playbin["uri"] = @"file:///U:/Video/test.avi";
+//            playbin["uri"] = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4";
+            playbin["uri"] = @"http://freedesktop.org/software/gstreamer-sdk/data/media/sintel_trailer-480p.webm";
 
             var ret = playbin.SetState(State.Playing);
             if (ret == StateChangeReturn.Failure)
@@ -65,12 +65,12 @@ namespace GstSamples
                             }
                         }
                         // Print current position and total duration
-                        Console.WriteLine("Position {0} / {1} - SeekEnabled={2} - SeekDone={3}", 
+                        Console.WriteLine("Position {0} / {1} - SeekEnabled={2} - SeekDone={3}",
                             new TimeSpan(current), new TimeSpan(duration), seekEnabled, seekDone);
                         if (seekEnabled && !seekDone && current > 10 * Constants.SECOND)
                         {
                             Console.WriteLine($"Performing seek current = {current}");
-                            //                            playbin.Seek(1.0, Format.Time, SeekFlags.Flush, SeekType.None, 30 * Constants.SECOND, SeekType.End, -1);
+//                            playbin.Seek(1.0, Format.Time, SeekFlags.Flush, SeekType.None, 30 * Constants.SECOND, SeekType.End, -1);
 //                            playbin.SetState(State.Paused) ;
                             playbin.SeekSimple(Format.Time, SeekFlags.Flush | SeekFlags.KeyUnit, 30L * Constants.SECOND);
 //                            playbin.SetState(State.Playing);

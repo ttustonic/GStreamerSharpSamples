@@ -34,7 +34,7 @@ namespace WinformSample
             InitGStreamerPipeline();
         }
 
-        void HandleRealized(object sender, EventArgs e)
+        void HandleRealized(object sender, System.EventArgs e)
         {
             var vpanel = sender as Panel;
             _videoPanelHandle = vpanel.Handle;
@@ -44,27 +44,27 @@ namespace WinformSample
             adapter.HandleEvents(true);
         }
 
-        void OnPlayClick(object sender, EventArgs e)
+        void OnPlayClick(object sender, System.EventArgs e)
         {
             var setStateRet = _playbin.SetState(Gst.State.Playing);
             Console.WriteLine("SetStatePlaying returned: " + setStateRet.ToString());
         }
 
-        void OnPauseClick(object sender, EventArgs e)
+        void OnPauseClick(object sender, System.EventArgs e)
         {
             _playbin.SetState(State.Paused);
         }
 
-        void OnStopClick(object sender, EventArgs e)
+        void OnStopClick(object sender, System.EventArgs e)
         {
             var setStateRet = _playbin.SetState(State.Ready);
             Console.WriteLine("SetStateReady returned: " + setStateRet.ToString());
         }
 
-        void OnSliderValueChanged(object sender, EventArgs e)
+        void OnSliderValueChanged(object sender, System.EventArgs e)
         {
-            var slider = sender as TrackBar;
-            var value = slider.Value;
+            var trackBar = sender as TrackBar;
+            var value = trackBar.Value;
             _playbin.SeekSimple(Format.Time, SeekFlags.Flush | SeekFlags.KeyUnit, value * Gst.Constants.SECOND);
         }
 
@@ -73,7 +73,6 @@ namespace WinformSample
             _mainLoop = new GLib.MainLoop();
             _mainGlibThread = new System.Threading.Thread(_mainLoop.Run);
             _mainGlibThread.Start();
-            //            _mainLoop.Run();
 
             // Create the elements
             _playbin = ElementFactory.Make("playbin", "playbin");
@@ -84,8 +83,8 @@ namespace WinformSample
                 return;
             }
             // Set the URI to play.
-            _playbin["uri"] = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4";
-//            _playbin["uri"] = @"file:///U:/Video/test2.mp4";
+            //            _playbin["uri"] = "http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4";
+            _playbin["uri"] = @"https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps_1920x1080_8000k.mpd";
 
             // Connect to interesting signals in playbin
             _playbin.Connect("video-tags-changed", TagsCb);
@@ -110,11 +109,10 @@ namespace WinformSample
 
         #region Bus events
         /// <summary>
-        /// This function is called when an error message is posted on the bus 
+        /// This function is called when an error message is posted on the bus
         /// </summary>
         void ErrorCb(object o, GLib.SignalArgs args)
         {
-            Bus bus = o as Bus;
             Gst.Message msg = (Gst.Message)args.Args[0];
             msg.ParseError(out GException err, out string debug);
 
@@ -136,7 +134,6 @@ namespace WinformSample
             msg.ParseStateChanged(out State oldState, out State newState, out State pendingState);
             if (msg.Src == _playbin)
             {
-                //                State = newState;
                 Console.WriteLine($"State set to {Element.StateGetName(newState)}");
                 if (oldState == State.Ready && newState == State.Paused)
                 {
@@ -290,7 +287,6 @@ namespace WinformSample
             }
             base.Dispose(disposing);
         }
-
 
         //void OnFormClosing(object sender, FormClosingEventArgs e)
         //{

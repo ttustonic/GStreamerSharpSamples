@@ -1,10 +1,10 @@
 ﻿namespace GstSamples
 {
-    class Program
+    static class Program
     {
         public static void Main(string[] args)
         {
-            WebRtcSendRcv.Run(args);
+            PlaybackTutorial07.Run(args);
         }
     }
 }

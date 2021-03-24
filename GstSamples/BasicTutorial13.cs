@@ -34,9 +34,9 @@ namespace GstSamples
  'N' to move to next frame (in current direction, better in PAUSE)
  'Q' to quit
 ");
-            _data.Pipeline = Gst.Parse.Launch("playbin uri=https://www.freedesktop.org/software/gstreamer-sdk/data/media/sintel_trailer-480p.webm");
+//            _data.Pipeline = Gst.Parse.Launch("playbin uri=https://www.freedesktop.org/software/gstreamer-sdk/data/media/sintel_trailer-480p.webm");
 //            _data.Pipeline = Gst.Parse.Launch("playbin uri=http://download.blender.org/durian/trailer/sintel_trailer-1080p.mp4");
-//            _data.Pipeline = Gst.Parse.Launch("playbin uri=file:///U:/Video/test.avi");
+            _data.Pipeline = Gst.Parse.Launch("playbin uri=file:///U:/Video/test.mp4");
 
             // Add a keyboard watch so we get notified of keystrokes
             GLib.IOChannel ioStdin;
